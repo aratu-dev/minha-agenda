@@ -20,11 +20,15 @@ async function initDB() {
       title TEXT NOT NULL,
       type TEXT NOT NULL,
       date DATE NOT NULL,
+      start_time TIME,
       value NUMERIC(10,2),
       notes TEXT,
       done BOOLEAN DEFAULT false,
       created_at TIMESTAMP DEFAULT NOW()
     )
+  `);
+  await pool.query(`
+    ALTER TABLE jobs ADD COLUMN IF NOT EXISTS start_time TIME
   `);
   console.log('Banco de dados pronto.');
 }
@@ -39,11 +43,11 @@ app.get('/api/jobs', async (req, res) => {
 });
 
 app.post('/api/jobs', async (req, res) => {
-  const { title, type, date, value, notes } = req.body;
+  const { title, type, date, start_time, value, notes } = req.body;
   try {
     const result = await pool.query(
-      'INSERT INTO jobs (title, type, date, value, notes) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-      [title, type, date, value || null, notes || null]
+      'INSERT INTO jobs (title, type, date, start_time, value, notes) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+      [title, type, date, start_time || null, value || null, notes || null]
     );
     res.json(result.rows[0]);
   } catch (err) {

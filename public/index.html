@@ -84,6 +84,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-save:hover{opacity:.85}
 .btn-save:active{opacity:.7}
 
+/* DAY PANEL */
+.day-panel{margin-top:1rem;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;animation:slideIn .15s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.day-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+.day-panel-title{font-size:15px;font-weight:500}
+.day-panel-close{background:none;border:none;cursor:pointer;color:var(--hint);font-size:22px;line-height:1;padding:0}
+.day-panel-list{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.day-panel-empty{padding:16px 14px;color:var(--muted);font-size:14px}
 /* CALENDAR */
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .cal-nav span{font-size:16px;font-weight:500}
@@ -91,9 +99,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
 .cal-dh{text-align:center;font-size:11px;color:var(--hint);font-weight:500;padding:3px 0}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-day{min-height:48px;border-radius:6px;padding:4px 5px;border:1px solid var(--border);background:var(--surface)}
-.cal-day.empty-day{background:transparent;border-color:transparent}
+.cal-day{min-height:48px;border-radius:6px;padding:4px 5px;border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:border-color .15s}
+.cal-day:hover{border-color:var(--muted)}
+.cal-day.empty-day{background:transparent;border-color:transparent;cursor:default;pointer-events:none}
 .cal-day.today{border-color:var(--muted)}
+.cal-day.selected{border-color:var(--text);border-width:2px}
 .cal-num{font-size:11px;color:var(--muted);margin-bottom:3px}
 .cal-dot{width:100%;height:3px;border-radius:2px;margin-bottom:2px}
 </style>
@@ -131,6 +141,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="cal-dh">Qua</div><div class="cal-dh">Qui</div><div class="cal-dh">Sex</div><div class="cal-dh">Sáb</div>
     </div>
     <div class="cal-grid" id="cal-grid"></div>
+    <div id="day-panel" style="display:none"></div>
   </div>
 
   <!-- FORMULÁRIO -->
@@ -155,9 +166,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <input type="date" id="f-date" />
         </div>
         <div class="form-row" style="margin-bottom:0">
+          <label>Horário de início</label>
+          <input type="time" id="f-time" />
+        </div>
+      </div>
+      <div class="form-grid" style="margin-top:.9rem">
+        <div class="form-row" style="margin-bottom:0">
           <label>Valor (R$)</label>
           <input type="number" id="f-value" placeholder="0,00" min="0" step="0.01" />
         </div>
+        <div></div>
       </div>
       <div class="form-row" style="margin-top:.9rem">
         <label>Observações</label>
@@ -241,13 +259,15 @@ function renderList(){
 function card(j){
   const t = TYPES[j.type] || TYPES.foto;
   const d = new Date(j.date+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+  const time = j.start_time ? j.start_time.slice(0,5) : '';
+  const dateStr = time ? `${d} · ${time}` : d;
   const val = j.value ? ` · R$ ${parseFloat(j.value).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}` : '';
   return `<div class="job-card ${j.done?'done-card':''}">
     <div class="stripe" style="background:${t.color}"></div>
     <div class="job-body">
       <div class="job-top">
         <div class="job-title">${j.title}</div>
-        <div class="job-date">${d}</div>
+        <div class="job-date">${dateStr}</div>
       </div>
       <div class="job-meta">
         <span class="type-pill" style="background:${t.bg};color:${t.text}">${t.label}</span>
@@ -275,12 +295,14 @@ async function saveJob(){
   const title = document.getElementById('f-title').value.trim();
   const type  = document.getElementById('f-type').value;
   const date  = document.getElementById('f-date').value;
+  const time  = document.getElementById('f-time').value;
   const value = document.getElementById('f-value').value;
   const notes = document.getElementById('f-notes').value.trim();
   if(!title){ alert('Informe o título / cliente.'); return; }
   if(!date){  alert('Informe a data.'); return; }
-  await api('POST', '/api/jobs', {title, type, date, value: value||null, notes: notes||null});
+  await api('POST', '/api/jobs', {title, type, date, start_time: time||null, value: value||null, notes: notes||null});
   document.getElementById('f-title').value = '';
+  document.getElementById('f-time').value  = '';
   document.getElementById('f-value').value = '';
   document.getElementById('f-notes').value = '';
   showTab('list', document.querySelectorAll('.tab')[0]);
@@ -295,7 +317,9 @@ function showTab(name, el){
   el.classList.add('on');
 }
 
-function calMove(d){ calDate = new Date(calDate.getFullYear(), calDate.getMonth()+d, 1); renderCal(); }
+let selectedDay = null;
+
+function calMove(d){ calDate = new Date(calDate.getFullYear(), calDate.getMonth()+d, 1); selectedDay=null; renderCal(); }
 function renderCal(){
   const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   const y = calDate.getFullYear(), m = calDate.getMonth();
@@ -309,12 +333,65 @@ function renderCal(){
     const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dayJobs = jobs.filter(j=>j.date&&j.date.slice(0,10)===dateStr);
     const isToday = dateStr===todayStr;
-    h += `<div class="cal-day${isToday?' today':''}">
+    const isSel = dateStr===selectedDay;
+    h += `<div class="cal-day${isToday?' today':''}${isSel?' selected':''}" onclick="selectDay('${dateStr}')">
       <div class="cal-num">${d}</div>
       ${dayJobs.map(j=>{const t=TYPES[j.type]||TYPES.foto;return`<div class="cal-dot" style="background:${t.color}" title="${j.title}"></div>`;}).join('')}
     </div>`;
   }
   document.getElementById('cal-grid').innerHTML = h;
+  if(selectedDay) renderDayPanel(selectedDay);
+}
+
+function selectDay(dateStr){
+  if(selectedDay===dateStr){ selectedDay=null; document.getElementById('day-panel').style.display='none'; renderCal(); return; }
+  selectedDay=dateStr;
+  renderCal();
+}
+
+function renderDayPanel(dateStr){
+  const panel = document.getElementById('day-panel');
+  const dayJobs = jobs.filter(j=>j.date&&j.date.slice(0,10)===dateStr).sort((a,b)=>{
+    if(!a.start_time) return 1; if(!b.start_time) return -1;
+    return a.start_time.localeCompare(b.start_time);
+  });
+  const d = new Date(dateStr+'T12:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  const dCap = d.charAt(0).toUpperCase()+d.slice(1);
+  let content = '';
+  if(!dayJobs.length){
+    content = `<div class="day-panel-empty">Nenhum trabalho neste dia.</div>`;
+  } else {
+    content = '<div class="day-panel-list">'+dayJobs.map(j=>{
+      const t = TYPES[j.type]||TYPES.foto;
+      const time = j.start_time ? `<span style="font-size:12px;color:var(--muted);font-weight:500">${j.start_time.slice(0,5)}</span>` : '';
+      const val = j.value ? `R$ ${parseFloat(j.value).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}` : '';
+      return `<div class="job-card ${j.done?'done-card':''}">
+        <div class="stripe" style="background:${t.color}"></div>
+        <div class="job-body">
+          <div class="job-top">
+            <div class="job-title">${j.title}</div>
+            ${time}
+          </div>
+          <div class="job-meta">
+            <span class="type-pill" style="background:${t.bg};color:${t.text}">${t.label}</span>
+            <span class="job-notes">${val?val+' ':''}${j.notes?'· '+j.notes.slice(0,60)+(j.notes.length>60?'…':''):''}</span>
+          </div>
+        </div>
+        <div class="job-actions">
+          <button class="btn-icon done ${j.done?'done-active':''}" onclick="toggleDone(${j.id})" title="${j.done?'Reabrir':'Concluir'}">${j.done?'↩':'✓'}</button>
+          <button class="btn-icon del" onclick="deleteJob(${j.id})" title="Excluir">×</button>
+        </div>
+      </div>`;
+    }).join('')+'</div>';
+  }
+  panel.innerHTML = `<div class="day-panel">
+    <div class="day-panel-header">
+      <span class="day-panel-title">${dCap}</span>
+      <button class="day-panel-close" onclick="selectDay('${dateStr}')">×</button>
+    </div>
+    ${content}
+  </div>`;
+  panel.style.display='block';
 }
 
 document.getElementById('today-label').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
