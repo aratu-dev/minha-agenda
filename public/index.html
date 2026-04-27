@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Agenda</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --foto:#185FA5;--foto-bg:#E6F1FB;--foto-text:#0C447C;
+  --video:#3B6D11;--video-bg:#EAF3DE;--video-text:#27500A;
+  --edicao:#993C1D;--edicao-bg:#FAECE7;--edicao-text:#712B13;
+  --design:#854F0B;--design-bg:#FAEEDA;--design-text:#633806;
+  --radius:12px;--radius-sm:8px;
+  --bg:#f5f4f0;--surface:#fff;--border:#e2e0d8;
+  --text:#1a1a18;--muted:#6b6b67;--hint:#a0a09c;
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#1a1a18;--surface:#242422;--border:#35342f;--text:#f0efe8;--muted:#9a9994;--hint:#5a5a56}
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:1rem}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:1rem 0 1.5rem}
+.header h1{font-size:20px;font-weight:600}
+.header .today{font-size:13px;color:var(--muted)}
+
+/* LEGEND */
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.chip{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:5px 10px;border-radius:20px;cursor:pointer;border:2px solid transparent;transition:all .15s;user-select:none}
+.chip.active{border-color:currentColor}
+.chip .dot{width:7px;height:7px;border-radius:50%}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
+.tab{padding:8px 16px;font-size:14px;cursor:pointer;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .15s;background:none;border-left:none;border-right:none;border-top:none}
+.tab.on{color:var(--text);border-bottom-color:var(--text);font-weight:500}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--surface);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border)}
+.stat .n{font-size:20px;font-weight:600}
+.stat .l{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* JOB LIST */
+.section-label{font-size:11px;font-weight:600;color:var(--hint);text-transform:uppercase;letter-spacing:.07em;margin:1rem 0 .5rem}
+.job-list{display:flex;flex-direction:column;gap:6px}
+.job-card{display:flex;align-items:stretch;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);overflow:hidden;transition:border-color .15s}
+.job-card:hover{border-color:var(--muted)}
+.job-card.done-card{opacity:.55}
+.stripe{width:4px;flex-shrink:0}
+.job-body{padding:10px 12px;flex:1;min-width:0}
+.job-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.job-title{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.job-card.done-card .job-title{text-decoration:line-through}
+.job-date{font-size:12px;color:var(--muted);flex-shrink:0}
+.job-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.type-pill{font-size:11px;font-weight:500;padding:2px 7px;border-radius:20px}
+.job-notes{font-size:12px;color:var(--muted)}
+.job-actions{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 10px;gap:4px}
+.btn-icon{background:none;border:none;cursor:pointer;color:var(--hint);font-size:17px;padding:4px;line-height:1;border-radius:4px;transition:color .15s}
+.btn-icon:hover.del{color:#E24B4A}
+.btn-icon:hover.done{color:#3B6D11}
+.btn-icon.done-active{color:#3B6D11}
+.empty{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:14px;line-height:1.8}
+
+/* FORM */
+.form-card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:1.25rem}
+.form-row{margin-bottom:.9rem}
+.form-row label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+.form-row input,.form-row select,.form-row textarea{
+  width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);
+  background:var(--bg);color:var(--text);font-size:15px;font-family:inherit;
+  transition:border-color .15s;outline:none
+}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--muted)}
+.form-row textarea{height:72px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:.9rem}
+@media(max-width:400px){.form-grid{grid-template-columns:1fr}}
+.btn-save{width:100%;padding:11px;font-size:15px;font-weight:600;cursor:pointer;border-radius:var(--radius-sm);border:none;color:#fff;background:#1a1a18;transition:opacity .15s}
+@media(prefers-color-scheme:dark){.btn-save{background:#e8e6df;color:#1a1a18}}
+.btn-save:hover{opacity:.85}
+.btn-save:active{opacity:.7}
+
+/* CALENDAR */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-nav span{font-size:16px;font-weight:500}
+.cal-nav button{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 14px;cursor:pointer;font-size:14px;color:var(--text)}
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
+.cal-dh{text-align:center;font-size:11px;color:var(--hint);font-weight:500;padding:3px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day{min-height:48px;border-radius:6px;padding:4px 5px;border:1px solid var(--border);background:var(--surface)}
+.cal-day.empty-day{background:transparent;border-color:transparent}
+.cal-day.today{border-color:var(--muted)}
+.cal-num{font-size:11px;color:var(--muted);margin-bottom:3px}
+.cal-dot{width:100%;height:3px;border-radius:2px;margin-bottom:2px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>Minha Agenda</h1>
+    <span class="today" id="today-label"></span>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="showTab('list',this)">Trabalhos</button>
+    <button class="tab" onclick="showTab('cal',this)">Calendário</button>
+    <button class="tab" onclick="showTab('form',this)">+ Novo</button>
+  </div>
+
+  <!-- LISTA -->
+  <div id="view-list">
+    <div class="stats" id="stats"></div>
+    <div id="list-content"></div>
+  </div>
+
+  <!-- CALENDÁRIO -->
+  <div id="view-cal" style="display:none">
+    <div class="cal-nav">
+      <button onclick="calMove(-1)">&#8592;</button>
+      <span id="cal-title"></span>
+      <button onclick="calMove(1)">&#8594;</button>
+    </div>
+    <div class="cal-head">
+      <div class="cal-dh">Dom</div><div class="cal-dh">Seg</div><div class="cal-dh">Ter</div>
+      <div class="cal-dh">Qua</div><div class="cal-dh">Qui</div><div class="cal-dh">Sex</div><div class="cal-dh">Sáb</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <div id="view-form" style="display:none">
+    <div class="form-card">
+      <div class="form-row">
+        <label>Título / Cliente</label>
+        <input type="text" id="f-title" placeholder="Ex: Casamento João e Maria" />
+      </div>
+      <div class="form-row">
+        <label>Tipo de serviço</label>
+        <select id="f-type">
+          <option value="foto">📷 Fotografia</option>
+          <option value="video">🎬 Vídeo / Filmagem</option>
+          <option value="edicao">✂️ Edição</option>
+          <option value="design">🎨 Design</option>
+        </select>
+      </div>
+      <div class="form-grid">
+        <div class="form-row" style="margin-bottom:0">
+          <label>Data</label>
+          <input type="date" id="f-date" />
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label>Valor (R$)</label>
+          <input type="number" id="f-value" placeholder="0,00" min="0" step="0.01" />
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:.9rem">
+        <label>Observações</label>
+        <textarea id="f-notes" placeholder="Local, detalhes, contato..."></textarea>
+      </div>
+      <button class="btn-save" onclick="saveJob()">Salvar trabalho</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TYPES = {
+  foto:   {label:'Fotografia', color:'var(--foto)',   bg:'var(--foto-bg)',   text:'var(--foto-text)'},
+  video:  {label:'Vídeo',      color:'var(--video)',  bg:'var(--video-bg)',  text:'var(--video-text)'},
+  edicao: {label:'Edição',     color:'var(--edicao)', bg:'var(--edicao-bg)', text:'var(--edicao-text)'},
+  design: {label:'Design',     color:'var(--design)', bg:'var(--design-bg)', text:'var(--design-text)'},
+};
+
+let jobs = [];
+let filter = 'all';
+let calDate = new Date();
+
+async function api(method, path, body){
+  const res = await fetch(path, {
+    method,
+    headers: body ? {'Content-Type':'application/json'} : {},
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  return res.json();
+}
+
+async function loadJobs(){
+  jobs = await api('GET', '/api/jobs');
+  renderLegend(); renderList(); renderCal();
+}
+
+function renderLegend(){
+  const el = document.getElementById('legend');
+  let h = `<div class="chip ${filter==='all'?'active':''}" onclick="setFilter('all')" style="background:#f1efe8;color:#444">
+    <span class="dot" style="background:#888"></span>Todos
+  </div>`;
+  for(const [k,v] of Object.entries(TYPES)){
+    h += `<div class="chip ${filter===k?'active':''}" onclick="setFilter('${k}')" style="background:${v.bg};color:${v.text}">
+      <span class="dot" style="background:${v.color}"></span>${v.label}
+    </div>`;
+  }
+  el.innerHTML = h;
+}
+
+function setFilter(f){ filter=f; renderLegend(); renderList(); }
+
+function renderList(){
+  const shown = jobs.filter(j => filter==='all' || j.type===filter);
+  const now = new Date(); now.setHours(0,0,0,0);
+
+  const total = shown.length;
+  const done = shown.filter(j=>j.done).length;
+  const pending = total - done;
+  const revenue = shown.filter(j=>j.done&&j.value).reduce((a,b)=>a+(parseFloat(b.value)||0),0);
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="n">${total}</div><div class="l">Total</div></div>
+    <div class="stat"><div class="n">${pending}</div><div class="l">Pendentes</div></div>
+    <div class="stat"><div class="n">${done}</div><div class="l">Concluídos</div></div>
+    <div class="stat"><div class="n">R$ ${Math.round(revenue).toLocaleString('pt-BR')}</div><div class="l">Recebidos</div></div>
+  `;
+
+  const upcoming = shown.filter(j=>!j.done && new Date(j.date+'T12:00')>=now);
+  const past = shown.filter(j=>j.done || new Date(j.date+'T12:00')<now);
+
+  let h = '';
+  if(!shown.length){
+    h = '<div class="empty">Nenhum trabalho aqui ainda.<br>Clique em "+ Novo" para começar.</div>';
+  } else {
+    if(upcoming.length) h += '<div class="section-label">Próximos</div><div class="job-list">'+upcoming.map(card).join('')+'</div>';
+    if(past.length) h += '<div class="section-label">Anteriores / Concluídos</div><div class="job-list">'+past.map(card).join('')+'</div>';
+  }
+  document.getElementById('list-content').innerHTML = h;
+}
+
+function card(j){
+  const t = TYPES[j.type] || TYPES.foto;
+  const d = new Date(j.date+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+  const val = j.value ? ` · R$ ${parseFloat(j.value).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}` : '';
+  return `<div class="job-card ${j.done?'done-card':''}">
+    <div class="stripe" style="background:${t.color}"></div>
+    <div class="job-body">
+      <div class="job-top">
+        <div class="job-title">${j.title}</div>
+        <div class="job-date">${d}</div>
+      </div>
+      <div class="job-meta">
+        <span class="type-pill" style="background:${t.bg};color:${t.text}">${t.label}</span>
+        <span class="job-notes">${val}${j.notes?' · '+j.notes.slice(0,50)+(j.notes.length>50?'…':''):''}</span>
+      </div>
+    </div>
+    <div class="job-actions">
+      <button class="btn-icon done ${j.done?'done-active':''}" onclick="toggleDone(${j.id})" title="${j.done?'Reabrir':'Concluir'}">${j.done?'↩':'✓'}</button>
+      <button class="btn-icon del" onclick="deleteJob(${j.id})" title="Excluir">×</button>
+    </div>
+  </div>`;
+}
+
+async function toggleDone(id){
+  await api('PATCH', `/api/jobs/${id}/toggle`);
+  loadJobs();
+}
+async function deleteJob(id){
+  if(!confirm('Excluir este trabalho?')) return;
+  await api('DELETE', `/api/jobs/${id}`);
+  loadJobs();
+}
+
+async function saveJob(){
+  const title = document.getElementById('f-title').value.trim();
+  const type  = document.getElementById('f-type').value;
+  const date  = document.getElementById('f-date').value;
+  const value = document.getElementById('f-value').value;
+  const notes = document.getElementById('f-notes').value.trim();
+  if(!title){ alert('Informe o título / cliente.'); return; }
+  if(!date){  alert('Informe a data.'); return; }
+  await api('POST', '/api/jobs', {title, type, date, value: value||null, notes: notes||null});
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-value').value = '';
+  document.getElementById('f-notes').value = '';
+  showTab('list', document.querySelectorAll('.tab')[0]);
+  loadJobs();
+}
+
+function showTab(name, el){
+  document.getElementById('view-list').style.display = name==='list'?'block':'none';
+  document.getElementById('view-cal').style.display  = name==='cal'?'block':'none';
+  document.getElementById('view-form').style.display = name==='form'?'block':'none';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function calMove(d){ calDate = new Date(calDate.getFullYear(), calDate.getMonth()+d, 1); renderCal(); }
+function renderCal(){
+  const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  document.getElementById('cal-title').textContent = MONTHS[m]+' '+y;
+  const first = new Date(y,m,1).getDay();
+  const days = new Date(y,m+1,0).getDate();
+  const todayStr = new Date().toISOString().slice(0,10);
+  let h = '';
+  for(let i=0;i<first;i++) h += '<div class="cal-day empty-day"></div>';
+  for(let d=1;d<=days;d++){
+    const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayJobs = jobs.filter(j=>j.date&&j.date.slice(0,10)===dateStr);
+    const isToday = dateStr===todayStr;
+    h += `<div class="cal-day${isToday?' today':''}">
+      <div class="cal-num">${d}</div>
+      ${dayJobs.map(j=>{const t=TYPES[j.type]||TYPES.foto;return`<div class="cal-dot" style="background:${t.color}" title="${j.title}"></div>`;}).join('')}
+    </div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = h;
+}
+
+document.getElementById('today-label').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+document.getElementById('f-date').valueAsDate = new Date();
+
+loadJobs();
+</script>
+</body>
+</html>
