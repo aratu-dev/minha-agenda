@@ -360,7 +360,7 @@ function renderLegend(){
 function setFilter(f){filter=f;renderLegend();renderList();}
 
 // FORMAT HELPERS
-function fmtDate(d){return d?new Date(d+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):''}
+function fmtDate(d){if(!d)return'';const s=d.slice(0,10);return new Date(s+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}
 function fmtTime(t){return t?t.slice(0,5):''}
 function fmtVal(v){return v?'R$ '+parseFloat(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):''}
 
