@@ -18,6 +18,8 @@
   --edicao:#D44D2A;--edicao-bg:#fce3da;--edicao-text:#8B2A10;
   --design:#C07A0A;--design-bg:#fdefd0;--design-text:#7a4c00;
   --r:14px;--rsm:9px;--rxs:6px;
+  --sidebar-w:220px;
+  --mob-header-h:56px;
 }
 [data-theme="light"]{
   --bg:#f2f1ec;--surf:#ffffff;--surf2:#f8f7f3;--bd:#e5e3da;--bd2:#d0cec4;
@@ -43,237 +45,268 @@
   --pay-part-bg:#0c2461;--pay-part-tx:#93c5fd;
   --pay-pago-bg:#052e16;--pay-pago-tx:#4ade80;
 }
-
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
 
 /* ── LAYOUT ── */
 .layout{display:flex;min-height:100vh}
 
 /* ── SIDEBAR ── */
-.sidebar{width:220px;background:var(--sidebar-bg);flex-shrink:0;display:flex;flex-direction:column;padding:0;position:fixed;top:0;left:0;height:100vh;z-index:50;transition:transform .25s cubic-bezier(.4,0,.2,1)}
-.sidebar-logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--sidebar-bd)}
-.sidebar-logo h1{font-size:17px;font-weight:700;color:var(--sidebar-tx);letter-spacing:-.01em}
+.sidebar{width:var(--sidebar-w);background:var(--sidebar-bg);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.sidebar-logo{padding:1.4rem 1.25rem .9rem;border-bottom:1px solid var(--sidebar-bd)}
+.sidebar-logo h1{font-size:16px;font-weight:700;color:var(--sidebar-tx)}
 .sidebar-logo .sub{font-size:11px;color:var(--sidebar-mu);margin-top:2px}
-.sidebar-nav{flex:1;padding:.75rem .75rem;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.sidebar-nav{flex:1;padding:.6rem .6rem;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rsm);cursor:pointer;color:var(--sidebar-mu);font-size:14px;font-weight:500;transition:all .15s;border:none;background:none;width:100%;text-align:left}
 .nav-item:hover{background:var(--sidebar-bd);color:var(--sidebar-tx)}
 .nav-item.on{background:#2176C7;color:#fff}
 .nav-item .ni{font-size:17px;width:22px;text-align:center;flex-shrink:0}
 .nav-item .nb{font-size:11px;background:rgba(255,255,255,.15);border-radius:20px;padding:1px 7px;margin-left:auto}
-.nav-item.on .nb{background:rgba(255,255,255,.25)}
-.sidebar-bottom{padding:.75rem;border-top:1px solid var(--sidebar-bd)}
+.sidebar-bottom{padding:.6rem;border-top:1px solid var(--sidebar-bd)}
 .theme-toggle{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rsm);cursor:pointer;color:var(--sidebar-mu);font-size:14px;background:none;border:none;width:100%;transition:all .15s}
 .theme-toggle:hover{background:var(--sidebar-bd);color:var(--sidebar-tx)}
 
 /* ── MOBILE HEADER ── */
-.mobile-header{display:none;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--surf);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:40}
-.mobile-header h1{font-size:17px;font-weight:700}
-.burger{background:none;border:none;cursor:pointer;color:var(--tx);font-size:22px;padding:4px}
-.mobile-nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:45}
-.mobile-nav-overlay.open{display:block}
+.mobile-header{display:none;align-items:center;justify-content:space-between;padding:0 1rem;height:var(--mob-header-h);background:var(--sidebar-bg);position:fixed;top:0;left:0;right:0;z-index:40;flex-shrink:0}
+.mobile-header h1{font-size:16px;font-weight:700;color:var(--sidebar-tx)}
+.burger{background:none;border:none;cursor:pointer;color:var(--sidebar-tx);font-size:22px;padding:6px;line-height:1}
+.mob-theme-btn{background:none;border:none;cursor:pointer;font-size:20px;padding:6px;line-height:1}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:45}
+.mob-overlay.open{display:block}
 
 /* ── MAIN ── */
-.main{flex:1;margin-left:220px;min-width:0;display:flex;flex-direction:column}
-.page{display:none;flex-direction:column;flex:1;padding:1.5rem;max-width:820px;width:100%}
-.page.on{display:flex}
+.main{flex:1;margin-left:var(--sidebar-w);min-width:0}
+.page{display:none;padding:1.5rem;max-width:820px;width:100%}
+.page.on{display:block}
 
 /* ── PAGE HEADER ── */
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;gap:1rem}
-.page-header-left h2{font-size:22px;font-weight:700;letter-spacing:-.02em}
-.page-header-left p{font-size:13px;color:var(--mu);margin-top:3px}
-.btn-primary{display:flex;align-items:center;gap:6px;padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;border-radius:var(--rsm);border:none;color:#fff;background:#2176C7;transition:all .15s;flex-shrink:0}
-.btn-primary:hover{background:#1a5ea0}
-.btn-primary:active{transform:scale(.97)}
+.page-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;gap:1rem}
+.page-hd h2{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.page-hd p{font-size:13px;color:var(--mu);margin-top:3px}
+.btn-blue{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;border-radius:var(--rsm);border:none;color:#fff;background:#2176C7;transition:all .15s;white-space:nowrap}
+.btn-blue:hover{background:#1a5ea0}
+.btn-blue:active{transform:scale(.97)}
 
-/* ── WEEK SUMMARY (top widget) ── */
-.week-summary{background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--shadow);margin-bottom:1.25rem;overflow:hidden}
-.ws-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
-.ws-title{font-size:13px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.06em}
-.ws-days{display:flex;gap:6px;padding:0 12px 14px;overflow-x:auto;scrollbar-width:none}
+/* ── WEEK WIDGET ── */
+.week-summary{background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--shadow);margin-bottom:1.2rem;overflow:hidden}
+.ws-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 8px}
+.ws-title{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em}
+.ws-days{display:flex;gap:5px;padding:0 10px 12px;overflow-x:auto;scrollbar-width:none}
 .ws-days::-webkit-scrollbar{display:none}
-.ws-day{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 10px;border-radius:var(--rsm);min-width:52px;cursor:pointer;transition:all .15s;border:1.5px solid transparent}
-.ws-day:hover{background:var(--surf2);border-color:var(--bd)}
-.ws-day.today-day{border-color:var(--foto)}
-.ws-day.has-work{background:var(--surf2)}
-.ws-day-name{font-size:10px;font-weight:600;color:var(--mu);text-transform:uppercase}
-.ws-day-num{font-size:18px;font-weight:700;color:var(--tx)}
-.ws-day.today-day .ws-day-num{color:var(--foto)}
-.ws-dots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;min-height:8px}
+.ws-day{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 9px;border-radius:var(--rsm);min-width:50px;cursor:pointer;transition:all .15s;border:1.5px solid transparent}
+.ws-day:hover{background:var(--surf2)}
+.ws-day.today-wd{border-color:var(--foto)}
+.ws-day.has-wd{background:var(--surf2)}
+.ws-dn{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase}
+.ws-dd{font-size:18px;font-weight:700;color:var(--tx)}
+.ws-day.today-wd .ws-dd{color:var(--foto)}
+.ws-dots{display:flex;gap:2px;justify-content:center;min-height:7px}
 .ws-dot{width:6px;height:6px;border-radius:50%}
-.ws-empty{font-size:11px;color:var(--hi);padding:.5rem 16px 1rem}
+.ws-empty{font-size:12px;color:var(--hi);padding:0 16px 12px}
 
 /* ── STATS ── */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
-@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
-.stat-card{background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:14px 16px;box-shadow:var(--shadow-sm);transition:transform .15s}
-.stat-card:hover{transform:translateY(-1px)}
-.stat-card .sc-n{font-size:24px;font-weight:700;letter-spacing:-.02em}
-.stat-card .sc-l{font-size:12px;color:var(--mu);margin-top:3px;font-weight:500}
-.stat-card .sc-icon{font-size:20px;margin-bottom:6px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.2rem}
+.stat-card{background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:14px;box-shadow:var(--shadow-sm)}
+.stat-card .sc-ic{font-size:18px;margin-bottom:5px}
+.stat-card .sc-n{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.stat-card .sc-l{font-size:11px;color:var(--mu);margin-top:2px;font-weight:500}
 
 /* ── TYPE STATS ── */
-.type-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1.25rem}
-@media(max-width:500px){.type-stats{grid-template-columns:1fr}}
-.ts-card{display:flex;align-items:center;gap:12px;background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:12px 14px;box-shadow:var(--shadow-sm)}
-.ts-icon{font-size:24px;width:44px;height:44px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ts-info{min-width:0}
-.ts-label{font-size:13px;font-weight:600;color:var(--tx2)}
-.ts-count{font-size:12px;color:var(--mu);margin-top:2px}
-.ts-bar-wrap{height:4px;background:var(--bd);border-radius:2px;margin-top:6px;overflow:hidden}
-.ts-bar{height:100%;border-radius:2px;transition:width .4s ease}
+.type-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1.2rem}
+.ts-card{display:flex;align-items:center;gap:11px;background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:12px 13px;box-shadow:var(--shadow-sm)}
+.ts-ic{font-size:22px;width:42px;height:42px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ts-lbl{font-size:13px;font-weight:600;color:var(--tx2)}
+.ts-cnt{font-size:12px;color:var(--mu);margin-top:1px}
+.ts-bar-bg{height:4px;background:var(--bd);border-radius:2px;margin-top:5px;overflow:hidden}
+.ts-bar{height:100%;border-radius:2px;transition:width .4s}
 
 /* ── SECTION LABEL ── */
-.sec-label{font-size:11px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.08em;margin:1.1rem 0 .5rem;display:flex;align-items:center;gap:8px}
-.sec-label::after{content:'';flex:1;height:1px;background:var(--bd)}
+.sec{font-size:11px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.08em;margin:1.1rem 0 .5rem;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--bd)}
 
 /* ── JOB CARD ── */
 .job-list{display:flex;flex-direction:column;gap:7px}
-.job-card{display:flex;align-items:stretch;border-radius:var(--r);border:1px solid var(--bd);background:var(--surf);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .15s;cursor:default}
+.job-card{border-radius:var(--r);border:1px solid var(--bd);background:var(--surf);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .15s}
 .job-card:hover{box-shadow:var(--shadow);transform:translateY(-1px);border-color:var(--bd2)}
 .job-card.done-card{opacity:.45}
+.jc-top{display:flex;align-items:stretch}
 .stripe{width:4px;flex-shrink:0}
-.job-body{padding:10px 13px;flex:1;min-width:0}
-.job-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px}
-.job-title{font-size:15px;font-weight:600;color:var(--tx);line-height:1.3}
+.job-body{padding:10px 12px;flex:1;min-width:0}
+.jt-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px}
+.job-title{font-size:15px;font-weight:600;line-height:1.3}
 .done-card .job-title{text-decoration:line-through;color:var(--mu)}
-.job-date-str{font-size:12px;color:var(--mu);flex-shrink:0;text-align:right;line-height:1.4}
-.job-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:2px}
+.job-date-str{font-size:11px;color:var(--mu);flex-shrink:0;text-align:right;line-height:1.5}
+.job-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
 .pay-pill{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px}
 .pay-pendente{background:var(--pay-pend-bg);color:var(--pay-pend-tx)}
 .pay-parcial{background:var(--pay-part-bg);color:var(--pay-part-tx)}
 .pay-pago{background:var(--pay-pago-bg);color:var(--pay-pago-tx)}
-.job-detail{font-size:12px;color:var(--mu);display:flex;align-items:center;gap:3px}
-.deadline-tag{font-size:11px;font-weight:500;color:var(--edicao-text);background:var(--edicao-bg);padding:2px 7px;border-radius:20px}
-.job-actions{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;gap:2px}
-.btn-ic{background:none;border:none;cursor:pointer;color:var(--hi);font-size:15px;padding:5px;line-height:1;border-radius:6px;transition:all .15s}
+.jd{font-size:12px;color:var(--mu)}
+.dl-tag{font-size:11px;font-weight:500;color:var(--edicao-text);background:var(--edicao-bg);padding:2px 7px;border-radius:20px}
+.jc-actions{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 7px;gap:2px;border-left:1px solid var(--bd)}
+.btn-ic{background:none;border:none;cursor:pointer;color:var(--hi);font-size:15px;padding:5px;line-height:1;border-radius:5px;transition:all .15s}
 .btn-ic:hover{background:var(--surf2);color:var(--tx)}
 .btn-ic.del:hover{color:#E24B4A}
 .btn-ic.ok-on{color:#2E9944}
+
+/* SINAL/SALDO BAR */
+.finance-bar{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
+.fb-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.fb-label{font-size:11px;color:var(--mu);font-weight:500}
+.fb-values{font-size:11px;color:var(--mu)}
+.fb-values b{color:var(--tx)}
+.fb-track{height:5px;background:var(--bd);border-radius:3px;overflow:hidden}
+.fb-fill{height:100%;border-radius:3px;background:#2E9944;transition:width .4s}
+
+/* CHECKLIST */
+.checklist-section{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
+.cl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;cursor:pointer;user-select:none}
+.cl-title{font-size:12px;font-weight:600;color:var(--mu)}
+.cl-progress{font-size:11px;color:var(--hi)}
+.cl-items{display:flex;flex-direction:column;gap:3px}
+.cl-item{display:flex;align-items:center;gap:7px;padding:3px 0;cursor:pointer}
+.cl-check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--bd2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s}
+.cl-item.cl-done .cl-check{background:#2E9944;border-color:#2E9944;color:#fff}
+.cl-item.cl-done .cl-text{text-decoration:line-through;color:var(--hi)}
+.cl-text{font-size:13px;color:var(--tx2)}
+.cl-add-row{display:flex;gap:6px;margin-top:5px}
+.cl-add-input{flex:1;padding:5px 9px;border-radius:var(--rxs);border:1px solid var(--bd);background:var(--surf2);color:var(--tx);font-size:13px;outline:none}
+.cl-add-input:focus{border-color:#2176C7}
+.cl-add-btn{background:#2176C7;color:#fff;border:none;border-radius:var(--rxs);padding:5px 11px;cursor:pointer;font-size:13px;font-weight:600}
+
+/* LOCATION */
+.loc-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--foto-text);background:var(--foto-bg);padding:2px 7px;border-radius:20px;text-decoration:none;transition:opacity .15s}
+.loc-tag:hover{opacity:.8}
+
+/* EMPTY */
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--mu);font-size:14px;line-height:2}
 .empty-state .ei{font-size:40px;margin-bottom:.5rem}
 
-/* ── SEARCH ── */
+/* SEARCH */
 .search-wrap{position:relative;margin-bottom:1rem}
 .search-wrap input{width:100%;padding:10px 14px 10px 38px;border-radius:var(--rsm);border:1.5px solid var(--bd);background:var(--surf);color:var(--tx);font-size:14px;outline:none;transition:border-color .15s;box-shadow:var(--shadow-sm)}
 .search-wrap input:focus{border-color:#2176C7}
-.search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--hi);pointer-events:none;font-size:15px}
+.search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--hi);pointer-events:none}
+
+/* FILTER CHIPS */
 .filter-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
 .chip{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:5px 11px;border-radius:20px;cursor:pointer;border:2px solid transparent;transition:all .15s;user-select:none}
 .chip.on{border-color:currentColor}
 .chip .cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
-/* ── FORM ── */
-.form-card{background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:1.4rem;box-shadow:var(--shadow)}
-.form-card h3{font-size:16px;font-weight:700;margin-bottom:1.1rem}
-.fr{margin-bottom:.9rem}
-.fr label{display:block;font-size:12px;font-weight:600;color:var(--mu);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
-.fr input,.fr select,.fr textarea{width:100%;padding:9px 12px;border-radius:var(--rsm);border:1.5px solid var(--bd);background:var(--surf2);color:var(--tx);font-size:14px;font-family:inherit;transition:border-color .15s;outline:none}
+/* FORM */
+.form-card{background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:1.3rem;box-shadow:var(--shadow)}
+.fr{margin-bottom:.85rem}
+.fr label{display:block;font-size:11px;font-weight:700;color:var(--mu);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.fr input,.fr select,.fr textarea{width:100%;padding:9px 11px;border-radius:var(--rsm);border:1.5px solid var(--bd);background:var(--surf2);color:var(--tx);font-size:14px;font-family:inherit;transition:border-color .15s;outline:none}
 .fr input:focus,.fr select:focus,.fr textarea:focus{border-color:#2176C7;background:var(--surf)}
-.fr textarea{height:70px;resize:vertical}
-.fg{display:grid;gap:10px}
+.fr textarea{height:68px;resize:vertical}
+.fg{display:grid;gap:9px}
 .fg2{grid-template-columns:1fr 1fr}
 .fg3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:480px){.fg2,.fg3{grid-template-columns:1fr}}
 .btn-row{display:flex;gap:8px;margin-top:.75rem}
 .btn-cancel{flex:1;padding:10px;font-size:14px;cursor:pointer;border-radius:var(--rsm);border:1.5px solid var(--bd);background:none;color:var(--mu);font-weight:500;transition:all .15s}
 .btn-cancel:hover{border-color:var(--mu);color:var(--tx)}
-.client-hint{font-size:12px;color:var(--mu);margin-top:4px}
-.client-hint a{color:#2176C7;cursor:pointer}
+.hint{font-size:12px;color:var(--mu);margin-top:3px}
+.hint a{color:#2176C7;cursor:pointer}
+.form-section-title{font-size:11px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.07em;margin:.9rem 0 .5rem;padding-top:.9rem;border-top:1px solid var(--bd)}
 
-/* ── CALENDAR ── */
-.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+/* CALENDAR */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
 .cal-nav-title{font-size:16px;font-weight:700}
-.cal-nav-btns{display:flex;align-items:center;gap:6px}
-.cal-nav-btns button{background:var(--surf);border:1px solid var(--bd);border-radius:var(--rsm);padding:5px 13px;cursor:pointer;font-size:13px;color:var(--tx);box-shadow:var(--shadow-sm);transition:all .15s}
-.cal-nav-btns button:hover{border-color:var(--bd2)}
-.cal-view-switch{display:flex;background:var(--surf2);border-radius:var(--rsm);padding:3px;gap:2px;border:1px solid var(--bd);margin-bottom:1rem}
-.cvs-btn{flex:1;padding:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--mu);border-radius:6px;transition:all .15s}
+.cal-nav-btns{display:flex;gap:5px}
+.cal-nav-btns button{background:var(--surf);border:1px solid var(--bd);border-radius:var(--rsm);padding:5px 13px;cursor:pointer;font-size:13px;color:var(--tx);box-shadow:var(--shadow-sm)}
+.cal-view-sw{display:flex;background:var(--surf2);border-radius:var(--rsm);padding:3px;gap:2px;border:1px solid var(--bd);margin-bottom:.9rem}
+.cvs-btn{flex:1;padding:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--mu);border-radius:5px;transition:all .15s}
 .cvs-btn.on{background:var(--surf);color:var(--tx);box-shadow:var(--shadow-sm)}
-.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px}
 .cal-dh{text-align:center;font-size:11px;font-weight:600;color:var(--hi);padding:3px 0;text-transform:uppercase}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-day{min-height:54px;border-radius:var(--rsm);padding:5px 5px;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;transition:all .15s}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day{min-height:52px;border-radius:var(--rsm);padding:4px 5px;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;transition:all .15s}
 .cal-day:hover{border-color:var(--bd2);box-shadow:var(--shadow-sm)}
 .cal-day.empty-day{background:transparent;border-color:transparent;cursor:default;pointer-events:none}
 .cal-day.today{border-color:#2176C7}
 .cal-day.selected{border-color:var(--tx);border-width:2px;background:var(--surf2)}
-.cal-num{font-size:12px;font-weight:500;color:var(--mu);margin-bottom:3px}
+.cal-num{font-size:11px;font-weight:500;color:var(--mu);margin-bottom:2px}
 .cal-day.today .cal-num{color:#2176C7;font-weight:700}
 .cal-dot{width:100%;height:3px;border-radius:2px;margin-bottom:2px}
-.day-panel{margin-top:.75rem;background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;box-shadow:var(--shadow);animation:si .18s ease}
-@keyframes si{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.dp-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--bd);background:var(--surf2)}
+.day-panel{margin-top:.75rem;background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;box-shadow:var(--shadow);animation:si .15s ease}
+@keyframes si{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.dp-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--bd);background:var(--surf2)}
 .dp-title{font-size:14px;font-weight:600}
 .dp-acts{display:flex;align-items:center;gap:6px}
-.dp-add-btn{background:#2176C7;color:#fff;border:none;border-radius:var(--rxs);padding:4px 11px;cursor:pointer;font-size:12px;font-weight:600;transition:opacity .15s}
-.dp-add-btn:hover{opacity:.85}
-.dp-close-btn{background:none;border:none;cursor:pointer;color:var(--mu);font-size:20px;line-height:1}
-.dp-list{padding:10px 12px;display:flex;flex-direction:column;gap:5px}
-.dp-empty{padding:14px 16px;color:var(--mu);font-size:13px}
+.dp-add{background:#2176C7;color:#fff;border:none;border-radius:var(--rxs);padding:4px 11px;cursor:pointer;font-size:12px;font-weight:600}
+.dp-close{background:none;border:none;cursor:pointer;color:var(--mu);font-size:20px;line-height:1}
+.dp-list{padding:9px 11px;display:flex;flex-direction:column;gap:5px}
+.dp-empty{padding:13px 15px;color:var(--mu);font-size:13px}
 .week-grid{display:flex;flex-direction:column;gap:5px}
 .week-row{display:flex;align-items:stretch;gap:10px;background:var(--surf);border-radius:var(--rsm);border:1.5px solid var(--bd);padding:10px 12px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm)}
 .week-row:hover{border-color:var(--bd2);box-shadow:var(--shadow)}
 .week-row.wr-today{border-color:#2176C7}
-.wrl{width:72px;flex-shrink:0}
-.wr-name{font-size:13px;font-weight:600;color:var(--tx2)}
+.wrl{width:68px;flex-shrink:0}
+.wr-name{font-size:13px;font-weight:600}
 .wr-date{font-size:11px;color:var(--mu)}
-.wr-today-label{font-size:10px;font-weight:700;color:#2176C7;text-transform:uppercase;margin-top:2px}
+.wr-today{font-size:10px;font-weight:700;color:#2176C7;text-transform:uppercase;margin-top:1px}
 .wrj{flex:1;display:flex;flex-direction:column;gap:3px}
 .wrj-item{font-size:12px;padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:5px;font-weight:500}
-.wrj-empty{font-size:12px;color:var(--hi);padding:2px 0}
 .wrj-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.wrj-empty{font-size:12px;color:var(--hi)}
 
-/* ── CLIENTS ── */
+/* CLIENTS */
 .client-grid{display:flex;flex-direction:column;gap:7px}
-.client-card{display:flex;align-items:center;justify-content:space-between;background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:13px 15px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm)}
+.client-card{display:flex;align-items:center;background:var(--surf);border-radius:var(--r);border:1px solid var(--bd);padding:12px 14px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm);gap:12px}
 .client-card:hover{box-shadow:var(--shadow);transform:translateY(-1px);border-color:var(--bd2)}
-.client-avatar{width:38px;height:38px;border-radius:50%;background:var(--foto-bg);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--foto-text);flex-shrink:0;margin-right:12px}
-.client-info{flex:1;min-width:0}
-.client-name{font-size:15px;font-weight:600}
-.client-meta{font-size:12px;color:var(--mu);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.client-acts{display:flex;gap:4px}
+.c-avatar{width:38px;height:38px;border-radius:50%;background:var(--foto-bg);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--foto-text);flex-shrink:0}
+.c-info{flex:1;min-width:0}
+.c-name{font-size:15px;font-weight:600}
+.c-meta{font-size:12px;color:var(--mu);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-acts{display:flex;gap:4px}
+.wa-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#25D366;background:#e8fdf0;padding:3px 9px;border-radius:20px;text-decoration:none;font-weight:600;transition:opacity .15s}
+.wa-link:hover{opacity:.8}
 
-/* ── MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
 @media(min-width:540px){.overlay{align-items:center;padding:1rem}}
-.modal{background:var(--surf);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;padding:1.4rem;box-shadow:0 -4px 40px rgba(0,0,0,.2)}
-@media(min-width:540px){.modal{border-radius:var(--r);box-shadow:0 8px 40px rgba(0,0,0,.2)}}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
-.modal-head h3{font-size:17px;font-weight:700}
-.modal-close{background:none;border:none;cursor:pointer;color:var(--mu);font-size:22px;line-height:1;padding:2px}
+.modal{background:var(--surf);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;padding:1.3rem;box-shadow:0 -4px 40px rgba(0,0,0,.2)}
+@media(min-width:540px){.modal{border-radius:var(--r)}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.modal-hd h3{font-size:17px;font-weight:700}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--mu);font-size:22px;line-height:1}
 
-/* ── POPUP SEMANAL ── */
+/* POPUP */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
 .popup-card{background:var(--surf);border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:popIn .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-.popup-hero{background:linear-gradient(135deg,#1a5ea0,#2176C7);padding:1.5rem;color:#fff}
-.popup-hero h2{font-size:20px;font-weight:700;margin-bottom:3px}
+.popup-hero{background:linear-gradient(135deg,#1a5ea0,#2176C7);padding:1.4rem;color:#fff}
+.popup-hero h2{font-size:19px;font-weight:700;margin-bottom:3px}
 .popup-hero p{font-size:13px;opacity:.85}
-.popup-body{padding:1rem}
-.popup-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--rsm);margin-bottom:4px;transition:background .15s}
+.popup-body{padding:.9rem}
+.popup-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rsm);margin-bottom:3px}
 .popup-item:hover{background:var(--surf2)}
-.popup-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.popup-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .popup-item-info{flex:1;min-width:0}
 .popup-item-title{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .popup-item-meta{font-size:12px;color:var(--mu);margin-top:1px}
-.popup-item-time{font-size:12px;font-weight:600;color:var(--mu);flex-shrink:0}
+.popup-item-time{font-size:12px;font-weight:600;color:var(--mu);flex-shrink:0;text-align:right}
 .popup-empty{padding:1rem;text-align:center;color:var(--mu);font-size:14px}
-.popup-footer{padding:.75rem 1rem;border-top:1px solid var(--bd);display:flex;justify-content:flex-end}
-.popup-close-btn{background:#2176C7;color:#fff;border:none;border-radius:var(--rsm);padding:9px 22px;cursor:pointer;font-size:14px;font-weight:600;transition:opacity .15s}
-.popup-close-btn:hover{opacity:.85}
+.popup-footer{padding:.7rem 1rem;border-top:1px solid var(--bd);display:flex;justify-content:flex-end}
+.popup-ok{background:#2176C7;color:#fff;border:none;border-radius:var(--rsm);padding:9px 22px;cursor:pointer;font-size:14px;font-weight:600}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.3)}
+  .main{margin-left:0;padding-top:var(--mob-header-h)}
   .mobile-header{display:flex}
   .page{padding:1rem}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .type-stats{grid-template-columns:1fr}
+  .fg3{grid-template-columns:1fr 1fr}
 }
-@media(max-width:400px){.stats-grid{grid-template-columns:1fr}}
+@media(max-width:420px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .fg2,.fg3{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body data-theme="light">
@@ -282,26 +315,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="popup-overlay" id="weekly-popup" style="display:none">
   <div class="popup-card">
     <div class="popup-hero">
-      <h2 id="pp-title">Esta semana</h2>
-      <p id="pp-sub">Seus próximos trabalhos</p>
+      <h2>Esta semana 📅</h2>
+      <p id="pp-sub"></p>
     </div>
     <div class="popup-body" id="pp-body"></div>
-    <div class="popup-footer">
-      <button class="popup-close-btn" onclick="closePopup()">Entendido</button>
-    </div>
+    <div class="popup-footer"><button class="popup-ok" onclick="closePopup()">Entendido</button></div>
   </div>
 </div>
 
 <!-- MOBILE HEADER -->
 <div class="mobile-header">
   <button class="burger" onclick="toggleSidebar()">☰</button>
-  <h1>Minha Agenda</h1>
-  <button class="theme-toggle" style="background:none;border:none;cursor:pointer;font-size:20px;padding:4px" onclick="toggleTheme()" id="theme-btn-mob">🌙</button>
+  <h1>📸 Minha Agenda</h1>
+  <button class="mob-theme-btn" id="mob-theme-btn" onclick="toggleTheme()">🌙</button>
 </div>
-<div class="mobile-nav-overlay" id="mob-overlay" onclick="toggleSidebar()"></div>
+<div class="mob-overlay" id="mob-overlay" onclick="toggleSidebar()"></div>
 
 <div class="layout">
-  <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <h1>📸 Minha Agenda</h1>
@@ -315,19 +345,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="nav-item" onclick="goTo('form',this)"><span class="ni">➕</span>Novo trabalho</button>
     </div>
     <div class="sidebar-bottom">
-      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 <span id="theme-label">Modo escuro</span></button>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 <span>Modo escuro</span></button>
     </div>
   </nav>
 
   <main class="main">
     <!-- DASHBOARD -->
     <div class="page on" id="page-dashboard">
-      <div class="page-header">
-        <div class="page-header-left">
-          <h2>Dashboard</h2>
-          <p id="dash-greeting"></p>
-        </div>
-        <button class="btn-primary" onclick="goTo('form',document.querySelector('.nav-item:nth-child(5)'))">+ Novo trabalho</button>
+      <div class="page-hd">
+        <div><h2>Dashboard</h2><p id="dash-date"></p></div>
+        <button class="btn-blue" onclick="goTo('form',document.querySelectorAll('.nav-item')[4])">+ Novo trabalho</button>
       </div>
       <div class="week-summary" id="week-summary"></div>
       <div class="stats-grid" id="dash-stats"></div>
@@ -336,9 +363,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <!-- TRABALHOS -->
     <div class="page" id="page-jobs">
-      <div class="page-header">
-        <div class="page-header-left"><h2>Trabalhos</h2><p id="jobs-count-label"></p></div>
-        <button class="btn-primary" onclick="goTo('form',document.querySelector('.nav-item:nth-child(5)'))">+ Novo</button>
+      <div class="page-hd">
+        <div><h2>Trabalhos</h2><p id="jobs-lbl"></p></div>
+        <button class="btn-blue" onclick="goTo('form',document.querySelectorAll('.nav-item')[4])">+ Novo</button>
       </div>
       <div class="search-wrap"><span class="si">🔍</span><input type="text" id="search" placeholder="Buscar por título ou cliente..." oninput="renderJobs()"></div>
       <div class="filter-chips" id="filter-chips"></div>
@@ -347,10 +374,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <!-- CALENDÁRIO -->
     <div class="page" id="page-cal">
-      <div class="page-header">
-        <div class="page-header-left"><h2>Calendário</h2></div>
-      </div>
-      <div class="cal-view-switch">
+      <div class="page-hd"><div><h2>Calendário</h2></div></div>
+      <div class="cal-view-sw">
         <button class="cvs-btn on" id="cvs-month" onclick="setCalView('month',this)">Mês</button>
         <button class="cvs-btn" id="cvs-week" onclick="setCalView('week',this)">Semana</button>
       </div>
@@ -376,22 +401,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <!-- CLIENTES -->
     <div class="page" id="page-clients">
-      <div class="page-header">
-        <div class="page-header-left"><h2>Clientes</h2><p id="clients-count-label"></p></div>
-        <button class="btn-primary" onclick="openClientModal()">+ Novo cliente</button>
+      <div class="page-hd">
+        <div><h2>Clientes</h2><p id="clients-lbl"></p></div>
+        <button class="btn-blue" onclick="openClientModal()">+ Novo cliente</button>
       </div>
       <div id="clients-content"></div>
     </div>
 
     <!-- FORMULÁRIO -->
     <div class="page" id="page-form">
-      <div class="page-header">
-        <div class="page-header-left"><h2 id="form-page-title">Novo trabalho</h2></div>
-      </div>
+      <div class="page-hd"><div><h2 id="form-page-title">Novo trabalho</h2></div></div>
       <div class="form-card">
         <input type="hidden" id="f-id">
         <div class="fr"><label>Título / Descrição</label><input type="text" id="f-title" placeholder="Ex: Casamento João e Maria"/></div>
-        <div class="fg fg2" style="margin-bottom:.9rem">
+        <div class="fg fg2" style="margin-bottom:.85rem">
           <div class="fr" style="margin:0"><label>Tipo de serviço</label>
             <select id="f-type">
               <option value="foto">📷 Fotografia</option>
@@ -402,16 +425,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           </div>
           <div class="fr" style="margin:0"><label>Cliente</label>
             <select id="f-client"><option value="">— Sem cliente —</option></select>
-            <div class="client-hint"><a onclick="openClientModal()">+ Cadastrar novo cliente</a></div>
+            <div class="hint"><a onclick="openClientModal()">+ Cadastrar novo cliente</a></div>
           </div>
         </div>
-        <div class="fg fg3" style="margin-bottom:.9rem">
+        <div class="fg fg3" style="margin-bottom:.85rem">
           <div class="fr" style="margin:0"><label>Data do evento</label><input type="date" id="f-date"/></div>
           <div class="fr" style="margin:0"><label>Horário</label><input type="time" id="f-time"/></div>
           <div class="fr" style="margin:0"><label>Prazo de entrega</label><input type="date" id="f-deadline"/></div>
         </div>
-        <div class="fg fg2" style="margin-bottom:.9rem">
-          <div class="fr" style="margin:0"><label>Valor (R$)</label><input type="number" id="f-value" placeholder="0,00" min="0" step="0.01"/></div>
+        <div class="fr"><label>Localização</label><input type="text" id="f-location" placeholder="Ex: Igreja São Pedro, Natal - RN"/></div>
+
+        <div class="form-section-title">Financeiro</div>
+        <div class="fg fg3" style="margin-bottom:.85rem">
+          <div class="fr" style="margin:0"><label>Valor total (R$)</label><input type="number" id="f-value" placeholder="0,00" min="0" step="0.01"/></div>
+          <div class="fr" style="margin:0"><label>Sinal recebido (R$)</label><input type="number" id="f-signal" placeholder="0,00" min="0" step="0.01"/></div>
           <div class="fr" style="margin:0"><label>Pagamento</label>
             <select id="f-payment">
               <option value="pendente">⏳ Pendente</option>
@@ -420,10 +447,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             </select>
           </div>
         </div>
-        <div class="fr"><label>Observações</label><textarea id="f-notes" placeholder="Local, detalhes, contato..."></textarea></div>
+        <div class="fr"><label>Observações</label><textarea id="f-notes" placeholder="Detalhes, equipamentos, contato..."></textarea></div>
         <div class="btn-row">
           <button class="btn-cancel" onclick="cancelForm()">Cancelar</button>
-          <button class="btn-primary" style="flex:2;justify-content:center" onclick="saveJob()">Salvar trabalho</button>
+          <button class="btn-blue" style="flex:2;justify-content:center" onclick="saveJob()">Salvar trabalho</button>
         </div>
       </div>
     </div>
@@ -431,34 +458,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <!-- MODAL CLIENTE -->
-<div class="overlay" id="client-modal" style="display:none" onclick="closeClientModal(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-head">
-      <h3 id="cm-title">Novo cliente</h3>
-      <button class="modal-close" onclick="closeClientModal()">×</button>
-    </div>
+<div class="overlay" id="client-modal" style="display:none" onclick="if(event.target===this)closeClientModal()">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="cm-title">Novo cliente</h3><button class="modal-close" onclick="closeClientModal()">×</button></div>
     <input type="hidden" id="cm-id">
-    <div class="fr"><label>Nome</label><input type="text" id="cm-name" placeholder="Nome do cliente"/></div>
-    <div class="fg fg2" style="margin-bottom:.9rem">
-      <div class="fr" style="margin:0"><label>Telefone / WhatsApp</label><input type="tel" id="cm-phone" placeholder="(84) 99999-9999"/></div>
+    <div class="fr"><label>Nome</label><input type="text" id="cm-name" placeholder="Nome completo"/></div>
+    <div class="fg fg2" style="margin-bottom:.85rem">
+      <div class="fr" style="margin:0"><label>WhatsApp</label><input type="tel" id="cm-phone" placeholder="(84) 99999-9999"/></div>
       <div class="fr" style="margin:0"><label>E-mail</label><input type="email" id="cm-email" placeholder="email@exemplo.com"/></div>
     </div>
     <div class="btn-row">
       <button class="btn-cancel" onclick="closeClientModal()">Cancelar</button>
-      <button class="btn-primary" style="flex:2;justify-content:center" onclick="saveClient()">Salvar</button>
+      <button class="btn-blue" style="flex:2;justify-content:center" onclick="saveClient()">Salvar</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL HISTORICO -->
-<div class="overlay" id="history-modal" style="display:none" onclick="closeHistoryModal(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-head">
-      <h3 id="hm-title">Histórico</h3>
-      <button class="modal-close" onclick="closeHistoryModal()">×</button>
-    </div>
-    <div id="hm-contact" style="font-size:13px;color:var(--mu);margin-bottom:.9rem"></div>
+<div class="overlay" id="history-modal" style="display:none" onclick="if(event.target===this)closeHistoryModal()">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="hm-title">Histórico</h3><button class="modal-close" onclick="closeHistoryModal()">×</button></div>
+    <div id="hm-contact" style="font-size:13px;color:var(--mu);margin-bottom:.9rem;display:flex;gap:10px;flex-wrap:wrap"></div>
     <div id="hm-content"></div>
+  </div>
+</div>
+
+<!-- MODAL CHECKLIST -->
+<div class="overlay" id="checklist-modal" style="display:none" onclick="if(event.target===this)closeChecklistModal()">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="clm-title">Checklist</h3><button class="modal-close" onclick="closeChecklistModal()">×</button></div>
+    <div id="clm-content"></div>
+    <div class="cl-add-row" style="margin-top:.75rem">
+      <input class="cl-add-input" type="text" id="clm-input" placeholder="Nova tarefa..." onkeydown="if(event.key==='Enter')addChecklistItem()">
+      <button class="cl-add-btn" onclick="addChecklistItem()">+</button>
+    </div>
   </div>
 </div>
 
@@ -472,19 +505,17 @@ const TYPES={
 const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 
-let jobs=[],clients=[],filter='all',selectedDay=null,calDate=new Date(),calView='month';
-let currentPage='dashboard';
+let jobs=[],clients=[],checklists={},filter='all',selectedDay=null,calDate=new Date(),calView='month';
+let checklistJobId=null;
 
 // ── THEME ──
 const savedTheme=localStorage.getItem('theme')||'light';
 applyTheme(savedTheme);
 function applyTheme(t){
-  document.body.dataset.theme=t;
-  localStorage.setItem('theme',t);
-  const icon=t==='dark'?'☀️':'🌙';
-  const label=t==='dark'?'Modo claro':'Modo escuro';
-  document.getElementById('theme-btn').innerHTML=icon+' <span id="theme-label">'+label+'</span>';
-  document.getElementById('theme-btn-mob').textContent=icon;
+  document.body.dataset.theme=t;localStorage.setItem('theme',t);
+  const ic=t==='dark'?'☀️':'🌙',lb=t==='dark'?'Modo claro':'Modo escuro';
+  document.getElementById('theme-btn').innerHTML=ic+' <span>'+lb+'</span>';
+  document.getElementById('mob-theme-btn').textContent=ic;
   document.getElementById('theme-meta').content=t==='dark'?'#0f0f0d':'#f2f1ec';
 }
 function toggleTheme(){applyTheme(document.body.dataset.theme==='dark'?'light':'dark');}
@@ -505,100 +536,78 @@ function renderAll(){
 }
 
 // ── HELPERS ──
-function fmtDate(d){if(!d)return'';const s=d.slice(0,10);return new Date(s+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtDate(d){if(!d)return'';return new Date(d.slice(0,10)+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}
 function fmtTime(t){return t?t.slice(0,5):'';}
-function fmtVal(v){return v?'R$ '+parseFloat(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'';}
-function dateStr(d){return d?d.slice(0,10):'';}
+function fmtVal(v){return v&&parseFloat(v)>0?'R$ '+parseFloat(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'';}
+function ds(d){return d?d.slice(0,10):'';}
 function todayStr(){return new Date().toISOString().slice(0,10);}
-function initial(name){return name?name.trim().charAt(0).toUpperCase():'';}
+function initial(n){return n?n.trim()[0].toUpperCase():'';}
+function waLink(phone){if(!phone)return'';const n=phone.replace(/\D/g,'');return'https://wa.me/55'+n;}
 
 // ── DASHBOARD ──
 function renderDashboard(){
-  const now=new Date();now.setHours(0,0,0,0);
-  const h=now.getHours();
-  const gr=h<12?'Bom dia':'h<18'?'Boa tarde':'Boa noite';
-  document.getElementById('dash-greeting').textContent=now.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-  // Stats
-  const total=jobs.length,done=jobs.filter(j=>j.done).length,pending=total-done;
+  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  const total=jobs.length,done=jobs.filter(j=>j.done).length;
   const revenue=jobs.filter(j=>j.payment_status==='pago'&&j.value).reduce((a,b)=>a+(parseFloat(b.value)||0),0);
+  const pending=total-done;
   document.getElementById('dash-stats').innerHTML=`
-    <div class="stat-card"><div class="sc-icon">📋</div><div class="sc-n">${total}</div><div class="sc-l">Total de trabalhos</div></div>
-    <div class="stat-card"><div class="sc-icon">⏳</div><div class="sc-n">${pending}</div><div class="sc-l">Pendentes</div></div>
-    <div class="stat-card"><div class="sc-icon">✅</div><div class="sc-n">${done}</div><div class="sc-l">Concluídos</div></div>
-    <div class="stat-card"><div class="sc-icon">💰</div><div class="sc-n">${fmtVal(revenue)||'R$ 0'}</div><div class="sc-l">Recebido</div></div>`;
-  // Type stats
-  const typeEl=document.getElementById('type-stats');
-  const maxCount=Math.max(1,...Object.keys(TYPES).map(k=>jobs.filter(j=>j.type===k).length));
-  typeEl.innerHTML=Object.entries(TYPES).map(([k,t])=>{
-    const cnt=jobs.filter(j=>j.type===k).length;
-    const pct=Math.round(cnt/maxCount*100);
+    <div class="stat-card"><div class="sc-ic">📋</div><div class="sc-n">${total}</div><div class="sc-l">Total</div></div>
+    <div class="stat-card"><div class="sc-ic">⏳</div><div class="sc-n">${pending}</div><div class="sc-l">Pendentes</div></div>
+    <div class="stat-card"><div class="sc-ic">✅</div><div class="sc-n">${done}</div><div class="sc-l">Concluídos</div></div>
+    <div class="stat-card"><div class="sc-ic">💰</div><div class="sc-n">${fmtVal(revenue)||'R$ 0'}</div><div class="sc-l">Recebido</div></div>`;
+  const mx=Math.max(1,...Object.keys(TYPES).map(k=>jobs.filter(j=>j.type===k).length));
+  document.getElementById('type-stats').innerHTML=Object.entries(TYPES).map(([k,t])=>{
+    const c=jobs.filter(j=>j.type===k).length;
     return`<div class="ts-card">
-      <div class="ts-icon" style="background:${t.bg}">${t.icon}</div>
-      <div class="ts-info" style="flex:1">
-        <div class="ts-label">${t.label}</div>
-        <div class="ts-count">${cnt} trabalho${cnt!==1?'s':''}</div>
-        <div class="ts-bar-wrap"><div class="ts-bar" style="width:${pct}%;background:${t.color}"></div></div>
-      </div>
+      <div class="ts-ic" style="background:${t.bg}">${t.icon}</div>
+      <div style="flex:1"><div class="ts-lbl">${t.label}</div><div class="ts-cnt">${c} trabalho${c!==1?'s':''}</div>
+      <div class="ts-bar-bg"><div class="ts-bar" style="width:${Math.round(c/mx*100)}%;background:${t.color}"></div></div></div>
     </div>`;
   }).join('');
-  // Week summary widget
   renderWeekWidget();
 }
 function renderWeekWidget(){
   const today=new Date();today.setHours(0,0,0,0);
-  const ws=document.getElementById('week-summary');
-  let daysHtml='';
-  let totalWeek=0;
+  let daysH='',totalW=0;
   for(let i=0;i<7;i++){
     const d=new Date(today);d.setDate(today.getDate()+i);
-    const ds=d.toISOString().slice(0,10);
-    const dj=jobs.filter(j=>dateStr(j.date)===ds&&!j.done);
-    totalWeek+=dj.length;
-    const isToday=i===0;
-    daysHtml+=`<div class="ws-day ${isToday?'today-day':''} ${dj.length?'has-work':''}" onclick="goToCal('${ds}')">
-      <div class="ws-day-name">${DAYS[d.getDay()]}</div>
-      <div class="ws-day-num">${d.getDate()}</div>
-      <div class="ws-dots">${dj.slice(0,3).map(j=>`<div class="ws-dot" style="background:${TYPES[j.type]?.color||'var(--hi)'}" title="${j.title}"></div>`).join('')}</div>
+    const dstr=d.toISOString().slice(0,10);
+    const dj=jobs.filter(j=>ds(j.date)===dstr&&!j.done);
+    totalW+=dj.length;
+    daysH+=`<div class="ws-day ${i===0?'today-wd':''} ${dj.length?'has-wd':''}" onclick="goToCal('${dstr}')">
+      <div class="ws-dn">${DAYS[d.getDay()]}</div>
+      <div class="ws-dd">${d.getDate()}</div>
+      <div class="ws-dots">${dj.slice(0,3).map(j=>`<div class="ws-dot" style="background:${TYPES[j.type]?.color||'var(--hi)'}"></div>`).join('')}</div>
     </div>`;
   }
-  ws.innerHTML=`<div class="ws-header">
-    <span class="ws-title">Esta semana</span>
-    <span style="font-size:12px;color:var(--mu)">${totalWeek} trabalho${totalWeek!==1?'s':''}</span>
-  </div>
-  <div class="ws-days">${daysHtml}</div>
-  ${totalWeek===0?'<div class="ws-empty">Nenhum trabalho pendente esta semana 🎉</div>':''}`;
+  document.getElementById('week-summary').innerHTML=`
+    <div class="ws-hd"><span class="ws-title">Esta semana</span><span style="font-size:12px;color:var(--mu)">${totalW} trabalho${totalW!==1?'s':''}</span></div>
+    <div class="ws-days">${daysH}</div>
+    ${totalW===0?'<div class="ws-empty">Nenhum trabalho pendente esta semana 🎉</div>':''}`;
 }
-function goToCal(ds){
-  selectedDay=ds;
-  calDate=new Date(ds+'T12:00');
-  goTo('cal',document.querySelectorAll('.nav-item')[2]);
-  setTimeout(()=>renderCal(),50);
-}
+function goToCal(dstr){selectedDay=dstr;calDate=new Date(dstr+'T12:00');goTo('cal',document.querySelectorAll('.nav-item')[2]);setTimeout(()=>renderCal(),50);}
 
 // ── WEEKLY POPUP ──
 function showWeeklyPopup(){
   const today=new Date();today.setHours(0,0,0,0);
   const end=new Date(today);end.setDate(today.getDate()+7);
-  const week=jobs.filter(j=>{const d=new Date(dateStr(j.date)+'T12:00');return d>=today&&d<=end&&!j.done;})
-    .sort((a,b)=>dateStr(a.date).localeCompare(dateStr(b.date)));
-  document.getElementById('pp-title').textContent='Esta semana';
-  document.getElementById('pp-sub').textContent=week.length?`${week.length} trabalho${week.length!==1?'s':''}  nos próximos 7 dias`:'Agenda limpa por enquanto!';
+  const week=jobs.filter(j=>{const d=new Date(ds(j.date)+'T12:00');return d>=today&&d<=end&&!j.done;})
+    .sort((a,b)=>ds(a.date).localeCompare(ds(b.date)));
+  document.getElementById('pp-sub').textContent=week.length?`${week.length} trabalho${week.length!==1?'s':''} nos próximos 7 dias`:'Agenda livre!';
   const body=document.getElementById('pp-body');
   if(!week.length){body.innerHTML='<div class="popup-empty">🎉 Nenhum trabalho pendente esta semana!</div>';}
-  else{body.innerHTML=week.map(j=>{
+  else body.innerHTML=week.map(j=>{
     const t=TYPES[j.type]||TYPES.foto;
-    const d=new Date(dateStr(j.date)+'T12:00');
-    const isToday=dateStr(j.date)===todayStr();
-    const dayLabel=isToday?'Hoje':d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short'});
+    const isToday=ds(j.date)===todayStr();
+    const d=new Date(ds(j.date)+'T12:00');
+    const dl=isToday?'Hoje':d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short'});
     return`<div class="popup-item">
       <div class="popup-dot" style="background:${t.color}"></div>
-      <div class="popup-item-info">
-        <div class="popup-item-title">${j.title}</div>
-        <div class="popup-item-meta">${t.label}${j.client_name?' · '+j.client_name:''}</div>
-      </div>
-      <div class="popup-item-time">${dayLabel}${fmtTime(j.start_time)?' · '+fmtTime(j.start_time):''}</div>
+      <div class="popup-item-info"><div class="popup-item-title">${j.title}</div>
+      <div class="popup-item-meta">${t.label}${j.client_name?' · '+j.client_name:''}</div></div>
+      <div class="popup-item-time">${dl}${fmtTime(j.start_time)?' · '+fmtTime(j.start_time):''}</div>
     </div>`;
-  }).join('');}
+  }).join('');
   document.getElementById('weekly-popup').style.display='flex';
 }
 function closePopup(){document.getElementById('weekly-popup').style.display='none';}
@@ -616,53 +625,125 @@ function renderJobs(){
   const q=(document.getElementById('search')?.value||'').toLowerCase();
   const now=new Date();now.setHours(0,0,0,0);
   let shown=jobs.filter(j=>(filter==='all'||j.type===filter)&&(!q||(j.title+' '+(j.client_name||'')).toLowerCase().includes(q)));
-  document.getElementById('jobs-count-label').textContent=`${shown.length} trabalho${shown.length!==1?'s':''}`;
-  const upcoming=shown.filter(j=>!j.done&&new Date(dateStr(j.date)+'T12:00')>=now);
-  const past=shown.filter(j=>j.done||(new Date(dateStr(j.date)+'T12:00')<now&&!j.done));
+  document.getElementById('jobs-lbl').textContent=`${shown.length} trabalho${shown.length!==1?'s':''}`;
+  const upcoming=shown.filter(j=>!j.done&&new Date(ds(j.date)+'T12:00')>=now);
+  const past=shown.filter(j=>j.done||(new Date(ds(j.date)+'T12:00')<now&&!j.done));
   let h='';
-  if(!shown.length){h='<div class="empty-state"><div class="ei">📋</div>Nenhum trabalho encontrado.</div>';}
+  if(!shown.length)h='<div class="empty-state"><div class="ei">📋</div>Nenhum trabalho encontrado.</div>';
   else{
-    if(upcoming.length)h+=`<div class="sec-label">Próximos (${upcoming.length})</div><div class="job-list">${upcoming.map(jobCard).join('')}</div>`;
-    if(past.length)h+=`<div class="sec-label">Anteriores / Concluídos (${past.length})</div><div class="job-list">${past.map(jobCard).join('')}</div>`;
+    if(upcoming.length)h+=`<div class="sec">Próximos (${upcoming.length})</div><div class="job-list">${upcoming.map(jobCard).join('')}</div>`;
+    if(past.length)h+=`<div class="sec">Anteriores / Concluídos (${past.length})</div><div class="job-list">${past.map(jobCard).join('')}</div>`;
   }
   document.getElementById('jobs-content').innerHTML=h;
 }
+
 function jobCard(j){
   const t=TYPES[j.type]||TYPES.foto;
-  const ds=dateStr(j.date);
-  const dateDisplay=fmtDate(j.date)+(fmtTime(j.start_time)?' · '+fmtTime(j.start_time):'');
+  const dateDisplay=fmtDate(j.date)+(fmtTime(j.start_time)?'\n'+fmtTime(j.start_time):'');
   const payClass='pay-'+(j.payment_status||'pendente');
   const payLabel={'pendente':'⏳ Pendente','parcial':'💸 Parcial','pago':'✅ Pago'}[j.payment_status||'pendente'];
-  const deadline=j.deadline?`<span class="deadline-tag">📅 ${fmtDate(j.deadline)}</span>`:'';
-  const client=j.client_name?`<span class="job-detail">👤 ${j.client_name}</span>`:'';
-  const val=fmtVal(j.value)?`<span class="job-detail">${fmtVal(j.value)}</span>`:'';
-  const notes=j.notes?`<span class="job-detail">${j.notes.slice(0,45)}${j.notes.length>45?'…':''}</span>`:'';
-  return`<div class="job-card ${j.done?'done-card':''}">
-    <div class="stripe" style="background:${t.color}"></div>
-    <div class="job-body">
-      <div class="job-top">
-        <div class="job-title">${j.title}</div>
-        <div class="job-date-str">${dateDisplay}</div>
-      </div>
-      <div class="job-meta">
-        <span class="pill" style="background:${t.bg};color:${t.text}">${t.label}</span>
-        <span class="pay-pill ${payClass}">${payLabel}</span>
-        ${client}${val}${deadline}${notes}
-      </div>
+  const deadline=j.deadline?`<span class="dl-tag">📅 ${fmtDate(j.deadline)}</span>`:'';
+  const client=j.client_name?`<span class="jd">👤 ${j.client_name}</span>`:'';
+  const val=fmtVal(j.value)?`<span class="jd">${fmtVal(j.value)}</span>`:'';
+  const notes=j.notes?`<span class="jd">${j.notes.slice(0,45)}${j.notes.length>45?'…':''}</span>`:'';
+  const loc=j.location?`<a class="loc-tag" href="https://maps.google.com/?q=${encodeURIComponent(j.location)}" target="_blank">📍 ${j.location.slice(0,30)}${j.location.length>30?'…':''}</a>`:'';
+  // Finance bar
+  const totalV=parseFloat(j.value)||0;
+  const signalV=parseFloat(j.signal_value)||0;
+  const pct=totalV>0?Math.min(100,Math.round(signalV/totalV*100)):0;
+  const saldo=totalV-signalV;
+  const finBar=totalV>0&&j.payment_status!=='pago'?`<div class="finance-bar">
+    <div class="fb-row">
+      <span class="fb-label">Sinal / Saldo</span>
+      <span class="fb-values"><b>${fmtVal(signalV)||'R$ 0'}</b> de ${fmtVal(totalV)} · saldo <b>${fmtVal(saldo)||'R$ 0'}</b></span>
     </div>
-    <div class="job-actions">
-      <button class="btn-ic ok ${j.done?'ok-on':''}" onclick="toggleDone(${j.id})" title="${j.done?'Reabrir':'Concluir'}">${j.done?'↩':'✓'}</button>
-      <button class="btn-ic" onclick="editJob(${j.id})" title="Editar">✏️</button>
-      <button class="btn-ic del" onclick="deleteJob(${j.id})" title="Excluir">×</button>
+    <div class="fb-track"><div class="fb-fill" style="width:${pct}%"></div></div>
+  </div>`:'';
+  // Checklist summary
+  const cl=checklists[j.id]||[];
+  const clDone=cl.filter(i=>i.done).length;
+  const clBar=cl.length?`<div class="checklist-section">
+    <div class="cl-header" onclick="openChecklistModal(${j.id})">
+      <span class="cl-title">✅ Checklist</span>
+      <span class="cl-progress">${clDone}/${cl.length}</span>
+    </div>
+  </div>`:'';
+  return`<div class="job-card ${j.done?'done-card':''}">
+    <div class="jc-top">
+      <div class="stripe" style="background:${t.color}"></div>
+      <div class="job-body">
+        <div class="jt-row">
+          <div class="job-title">${j.title}</div>
+          <div class="job-date-str">${fmtDate(j.date)}${fmtTime(j.start_time)?'<br>'+fmtTime(j.start_time):''}</div>
+        </div>
+        <div class="job-meta">
+          <span class="pill" style="background:${t.bg};color:${t.text}">${t.label}</span>
+          <span class="pay-pill ${payClass}">${payLabel}</span>
+          ${client}${val}${deadline}${loc}${notes}
+        </div>
+        ${finBar}${clBar}
+      </div>
+      <div class="jc-actions">
+        <button class="btn-ic ok ${j.done?'ok-on':''}" onclick="toggleDone(${j.id})" title="${j.done?'Reabrir':'Concluir'}">${j.done?'↩':'✓'}</button>
+        <button class="btn-ic" onclick="editJob(${j.id})" title="Editar">✏️</button>
+        <button class="btn-ic" onclick="openChecklistModal(${j.id})" title="Checklist">☑️</button>
+        <button class="btn-ic del" onclick="deleteJob(${j.id})" title="Excluir">×</button>
+      </div>
     </div>
   </div>`;
 }
+
+async function loadChecklists(){
+  const ids=jobs.map(j=>j.id);
+  await Promise.all(ids.map(async id=>{checklists[id]=await api('GET',`/api/jobs/${id}/checklist`);}));
+}
 async function toggleDone(id){await api('PATCH',`/api/jobs/${id}/toggle`);loadAll();}
-async function deleteJob(id){if(!confirm('Excluir este trabalho?'))return;await api('DELETE',`/api/jobs/${id}`);loadAll();}
+async function deleteJob(id){if(!confirm('Excluir?'))return;await api('DELETE',`/api/jobs/${id}`);loadAll();}
+
+// ── CHECKLIST MODAL ──
+async function openChecklistModal(jobId){
+  checklistJobId=jobId;
+  const j=jobs.find(x=>x.id==jobId);
+  document.getElementById('clm-title').textContent=(j?.title||'Trabalho')+' — Checklist';
+  document.getElementById('clm-input').value='';
+  await renderChecklistModal();
+  document.getElementById('checklist-modal').style.display='flex';
+  setTimeout(()=>document.getElementById('clm-input').focus(),200);
+}
+async function renderChecklistModal(){
+  const items=await api('GET',`/api/jobs/${checklistJobId}/checklist`);
+  checklists[checklistJobId]=items;
+  const el=document.getElementById('clm-content');
+  if(!items.length){el.innerHTML='<div style="color:var(--mu);font-size:13px;padding:.5rem 0">Nenhuma tarefa ainda. Adicione abaixo.</div>';return;}
+  el.innerHTML=`<div class="cl-items">${items.map(i=>`
+    <div class="cl-item ${i.done?'cl-done':''}">
+      <div class="cl-check" onclick="toggleChecklistItem(${i.id})">${i.done?'✓':''}</div>
+      <span class="cl-text" style="flex:1">${i.text}</span>
+      <button class="btn-ic del" style="font-size:13px;padding:3px" onclick="deleteChecklistItem(${i.id})">×</button>
+    </div>`).join('')}
+  </div>`;
+  renderAll();
+}
+async function addChecklistItem(){
+  const txt=document.getElementById('clm-input').value.trim();
+  if(!txt)return;
+  await api('POST',`/api/jobs/${checklistJobId}/checklist`,{text:txt,position:Date.now()});
+  document.getElementById('clm-input').value='';
+  await renderChecklistModal();
+}
+async function toggleChecklistItem(id){
+  await api('PATCH',`/api/checklist/${id}/toggle`);
+  await renderChecklistModal();
+}
+async function deleteChecklistItem(id){
+  await api('DELETE',`/api/checklist/${id}`);
+  await renderChecklistModal();
+}
+function closeChecklistModal(){document.getElementById('checklist-modal').style.display='none';}
 
 // ── FORM ──
 function resetForm(){
-  ['f-id','f-title','f-time','f-value','f-notes','f-deadline'].forEach(id=>document.getElementById(id).value='');
+  ['f-id','f-title','f-time','f-value','f-signal','f-notes','f-deadline','f-location'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-type').value='foto';
   document.getElementById('f-payment').value='pendente';
   document.getElementById('f-client').value='';
@@ -674,12 +755,14 @@ function editJob(id){
   document.getElementById('f-id').value=j.id;
   document.getElementById('f-title').value=j.title;
   document.getElementById('f-type').value=j.type;
-  document.getElementById('f-date').value=dateStr(j.date);
+  document.getElementById('f-date').value=ds(j.date);
   document.getElementById('f-time').value=fmtTime(j.start_time);
-  document.getElementById('f-deadline').value=dateStr(j.deadline);
+  document.getElementById('f-deadline').value=ds(j.deadline);
   document.getElementById('f-value').value=j.value||'';
+  document.getElementById('f-signal').value=j.signal_value||'';
   document.getElementById('f-payment').value=j.payment_status||'pendente';
   document.getElementById('f-notes').value=j.notes||'';
+  document.getElementById('f-location').value=j.location||'';
   document.getElementById('f-client').value=j.client_id||'';
   document.getElementById('form-page-title').textContent='Editar trabalho';
   goTo('form',document.querySelectorAll('.nav-item')[4]);
@@ -693,19 +776,19 @@ async function saveJob(){
   const start_time=document.getElementById('f-time').value;
   const deadline=document.getElementById('f-deadline').value;
   const value=document.getElementById('f-value').value;
+  const signal_value=document.getElementById('f-signal').value;
   const payment_status=document.getElementById('f-payment').value;
   const notes=document.getElementById('f-notes').value.trim();
+  const location=document.getElementById('f-location').value.trim();
   const client_id=document.getElementById('f-client').value;
   if(!title){alert('Informe o título.');return;}
   if(!date){alert('Informe a data.');return;}
-  const body={title,type,date,start_time:start_time||null,deadline:deadline||null,value:value||null,payment_status,notes:notes||null,client_id:client_id||null};
+  const body={title,type,date,start_time:start_time||null,deadline:deadline||null,value:value||null,signal_value:signal_value||0,payment_status,notes:notes||null,location:location||null,client_id:client_id||null};
   if(id){const ex=jobs.find(j=>j.id==id);await api('PUT',`/api/jobs/${id}`,{...body,done:ex?.done||false});}
   else await api('POST','/api/jobs',body);
-  resetForm();
-  goTo('jobs',document.querySelectorAll('.nav-item')[1]);
-  loadAll();
+  resetForm();goTo('jobs',document.querySelectorAll('.nav-item')[1]);loadAll();
 }
-function openFormForDate(ds){resetForm();document.getElementById('f-date').value=ds;goTo('form',document.querySelectorAll('.nav-item')[4]);}
+function openFormForDate(dstr){resetForm();document.getElementById('f-date').value=dstr;goTo('form',document.querySelectorAll('.nav-item')[4]);}
 
 // ── CLIENTS ──
 function populateClientSelect(){
@@ -715,17 +798,18 @@ function populateClientSelect(){
 }
 function renderClients(){
   const el=document.getElementById('clients-content');
-  document.getElementById('clients-count-label').textContent=`${clients.length} cliente${clients.length!==1?'s':''}`;
-  if(!clients.length){el.innerHTML='<div class="empty-state"><div class="ei">👥</div>Nenhum cliente cadastrado ainda.</div>';return;}
+  document.getElementById('clients-lbl').textContent=`${clients.length} cliente${clients.length!==1?'s':''}`;
+  if(!clients.length){el.innerHTML='<div class="empty-state"><div class="ei">👥</div>Nenhum cliente ainda.</div>';return;}
   el.innerHTML='<div class="client-grid">'+clients.map(c=>{
     const cnt=jobs.filter(j=>j.client_id==c.id).length;
-    const meta=[c.phone,c.email].filter(Boolean).join(' · ')+(cnt?` · ${cnt} trabalho${cnt>1?'s':''}`:'');
+    const meta=[c.phone,c.email].filter(Boolean).join(' · ')+(cnt?` · ${cnt} trabalho${cnt>1?'s':''}`:' · Sem trabalhos');
+    const wa=c.phone?`<a class="wa-link" href="${waLink(c.phone)}" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>`:'';
     return`<div class="client-card" onclick="openHistoryModal(${c.id})">
-      <div class="client-avatar">${initial(c.name)}</div>
-      <div class="client-info"><div class="client-name">${c.name}</div><div class="client-meta">${meta||'Sem contato'}</div></div>
-      <div class="client-acts" onclick="event.stopPropagation()">
-        <button class="btn-ic" onclick="editClient(${c.id})" title="Editar">✏️</button>
-        <button class="btn-ic del" onclick="deleteClient(${c.id})" title="Excluir">×</button>
+      <div class="c-avatar">${initial(c.name)}</div>
+      <div class="c-info"><div class="c-name">${c.name}</div><div class="c-meta">${meta}</div>${wa}</div>
+      <div class="c-acts" onclick="event.stopPropagation()">
+        <button class="btn-ic" onclick="editClient(${c.id})">✏️</button>
+        <button class="btn-ic del" onclick="deleteClient(${c.id})">×</button>
       </div>
     </div>`;
   }).join('')+'</div>';
@@ -740,7 +824,7 @@ function openClientModal(id){
   document.getElementById('client-modal').style.display='flex';
 }
 function editClient(id){openClientModal(id);}
-function closeClientModal(e){if(!e||e.target===document.getElementById('client-modal'))document.getElementById('client-modal').style.display='none';}
+function closeClientModal(){document.getElementById('client-modal').style.display='none';}
 async function saveClient(){
   const id=document.getElementById('cm-id').value;
   const name=document.getElementById('cm-name').value.trim();
@@ -751,14 +835,12 @@ async function saveClient(){
   else await api('POST','/api/clients',{name,phone,email});
   closeClientModal();loadAll();
 }
-async function deleteClient(id){
-  if(!confirm('Excluir cliente?'))return;
-  await api('DELETE',`/api/clients/${id}`);loadAll();
-}
+async function deleteClient(id){if(!confirm('Excluir cliente?'))return;await api('DELETE',`/api/clients/${id}`);loadAll();}
 async function openHistoryModal(cid){
   const c=clients.find(x=>x.id==cid);if(!c)return;
   document.getElementById('hm-title').textContent=c.name;
-  document.getElementById('hm-contact').textContent=[c.phone?'📱 '+c.phone:'',c.email?'✉️ '+c.email:''].filter(Boolean).join('  ·  ');
+  const wa=c.phone?`<a class="wa-link" href="${waLink(c.phone)}" target="_blank">💬 WhatsApp</a>`:'';
+  document.getElementById('hm-contact').innerHTML=[c.phone?`<span>📱 ${c.phone}</span>`:'',c.email?`<span>✉️ ${c.email}</span>`:'',wa].filter(Boolean).join('');
   const cj=await api('GET',`/api/clients/${cid}/jobs`);
   const total=cj.reduce((a,b)=>a+(parseFloat(b.value)||0),0);
   const pago=cj.filter(j=>j.payment_status==='pago').reduce((a,b)=>a+(parseFloat(b.value)||0),0);
@@ -768,10 +850,10 @@ async function openHistoryModal(cid){
       <div class="stat-card"><div class="sc-n">${fmtVal(total)||'R$ 0'}</div><div class="sc-l">Total</div></div>
       <div class="stat-card"><div class="sc-n">${fmtVal(pago)||'R$ 0'}</div><div class="sc-l">Recebido</div></div>
     </div>
-    <div class="job-list">${cj.length?cj.map(jobCard).join(''):'<div class="empty-state" style="padding:1.5rem 0">Nenhum trabalho ainda.</div>'}</div>`;
+    <div class="job-list">${cj.length?cj.map(jobCard).join(''):'<div class="empty-state" style="padding:1.5rem 0">Nenhum trabalho.</div>'}</div>`;
   document.getElementById('history-modal').style.display='flex';
 }
-function closeHistoryModal(e){if(!e||e.target===document.getElementById('history-modal'))document.getElementById('history-modal').style.display='none';}
+function closeHistoryModal(){document.getElementById('history-modal').style.display='none';}
 
 // ── NAVIGATION ──
 function goTo(page,navEl){
@@ -779,7 +861,6 @@ function goTo(page,navEl){
   document.getElementById('page-'+page).classList.add('on');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('on'));
   if(navEl)navEl.classList.add('on');
-  currentPage=page;
   if(window.innerWidth<=768)closeSidebar();
   if(page==='form'&&!document.getElementById('f-id').value)resetForm();
   if(page==='cal')renderCal();
@@ -807,9 +888,7 @@ function calMove(d){
   else calDate=new Date(calDate.getTime()+d*7*86400000);
   selectedDay=null;renderCal();
 }
-function renderCal(){
-  if(calView==='month')renderMonthCal();else renderWeekCal();
-}
+function renderCal(){calView==='month'?renderMonthCal():renderWeekCal();}
 function renderMonthCal(){
   const y=calDate.getFullYear(),m=calDate.getMonth();
   document.getElementById('cal-title').textContent=MONTHS[m]+' '+y;
@@ -817,12 +896,11 @@ function renderMonthCal(){
   let h='';
   for(let i=0;i<first;i++)h+='<div class="cal-day empty-day"></div>';
   for(let d=1;d<=days;d++){
-    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const dj=jobs.filter(j=>dateStr(j.date)===ds);
-    const isToday=ds===todayStr();const isSel=ds===selectedDay;
-    h+=`<div class="cal-day${isToday?' today':''}${isSel?' selected':''}" onclick="selectDay('${ds}')">
+    const dstr=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dj=jobs.filter(j=>ds(j.date)===dstr);
+    h+=`<div class="cal-day${dstr===todayStr()?' today':''}${dstr===selectedDay?' selected':''}" onclick="selectDay('${dstr}')">
       <div class="cal-num">${d}</div>
-      ${dj.map(j=>`<div class="cal-dot" style="background:${TYPES[j.type]?.color||'var(--hi)'}" title="${j.title}"></div>`).join('')}
+      ${dj.map(j=>`<div class="cal-dot" style="background:${TYPES[j.type]?.color||'var(--hi)'}"></div>`).join('')}
     </div>`;
   }
   document.getElementById('cal-grid').innerHTML=h;
@@ -831,63 +909,51 @@ function renderMonthCal(){
 }
 function renderWeekCal(){
   const d=new Date(calDate);d.setDate(d.getDate()-d.getDay());
-  const MONTHS_SHORT=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  document.getElementById('cal-title').textContent=MONTHS_SHORT[d.getMonth()]+' '+d.getFullYear();
+  const MS=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  document.getElementById('cal-title').textContent=MS[d.getMonth()]+' '+d.getFullYear();
   let h='';
   for(let i=0;i<7;i++){
     const day=new Date(d);day.setDate(d.getDate()+i);
-    const ds=day.toISOString().slice(0,10);
-    const dj=jobs.filter(j=>dateStr(j.date)===ds).sort((a,b)=>(a.start_time||'').localeCompare(b.start_time||''));
-    const isToday=ds===todayStr();
-    h+=`<div class="week-row ${isToday?'wr-today':''}" onclick="selectDay('${ds}');setCalView('month',document.getElementById('cvs-month'));calDate=new Date('${ds}T12:00');">
-      <div class="wrl">
-        <div class="wr-name" style="${isToday?'color:var(--foto)':''}">${DAYS[day.getDay()]}</div>
-        <div class="wr-date">${day.getDate()}/${day.getMonth()+1}</div>
-        ${isToday?'<div class="wr-today-label">Hoje</div>':''}
-      </div>
-      <div class="wrj">
-        ${dj.length?dj.map(j=>{const t=TYPES[j.type]||TYPES.foto;return`<div class="wrj-item" style="background:${t.bg};color:${t.text}"><span class="wrj-dot" style="background:${t.color}"></span>${fmtTime(j.start_time)?'<b>'+fmtTime(j.start_time)+'</b> ':''}${j.title}</div>`;}).join(''):'<span class="wrj-empty">Livre</span>'}
-      </div>
+    const dstr=day.toISOString().slice(0,10);
+    const dj=jobs.filter(j=>ds(j.date)===dstr).sort((a,b)=>(a.start_time||'').localeCompare(b.start_time||''));
+    const isToday=dstr===todayStr();
+    h+=`<div class="week-row ${isToday?'wr-today':''}" onclick="selectDay('${dstr}');setCalView('month',document.getElementById('cvs-month'));calDate=new Date('${dstr}T12:00')">
+      <div class="wrl"><div class="wr-name" style="${isToday?'color:var(--foto)':''}">${DAYS[day.getDay()]}</div>
+      <div class="wr-date">${day.getDate()}/${day.getMonth()+1}</div>${isToday?'<div class="wr-today">Hoje</div>':''}</div>
+      <div class="wrj">${dj.length?dj.map(j=>{const t=TYPES[j.type]||TYPES.foto;return`<div class="wrj-item" style="background:${t.bg};color:${t.text}"><span class="wrj-dot" style="background:${t.color}"></span>${fmtTime(j.start_time)?'<b>'+fmtTime(j.start_time)+'</b> ':''}${j.title}</div>`;}).join(''):'<span class="wrj-empty">Livre</span>'}</div>
     </div>`;
   }
   document.getElementById('week-grid').innerHTML=h;
 }
-function selectDay(ds){
-  if(selectedDay===ds){selectedDay=null;document.getElementById('day-panel').style.display='none';renderMonthCal();return;}
-  selectedDay=ds;renderMonthCal();
+function selectDay(dstr){
+  if(selectedDay===dstr){selectedDay=null;document.getElementById('day-panel').style.display='none';renderMonthCal();return;}
+  selectedDay=dstr;renderMonthCal();
 }
-function renderDayPanel(ds){
+function renderDayPanel(dstr){
   const panel=document.getElementById('day-panel');
-  const dj=jobs.filter(j=>dateStr(j.date)===ds).sort((a,b)=>(a.start_time||'').localeCompare(b.start_time||''));
-  const dl=new Date(ds+'T12:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  const dj=jobs.filter(j=>ds(j.date)===dstr).sort((a,b)=>(a.start_time||'').localeCompare(b.start_time||''));
+  const dl=new Date(dstr+'T12:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
   panel.innerHTML=`<div class="day-panel">
-    <div class="dp-head">
-      <span class="dp-title">${dl.charAt(0).toUpperCase()+dl.slice(1)}</span>
-      <div class="dp-acts">
-        <button class="dp-add-btn" onclick="openFormForDate('${ds}')">+ Novo</button>
-        <button class="dp-close-btn" onclick="selectDay('${ds}')">×</button>
-      </div>
-    </div>
-    ${dj.length?`<div class="dp-list">${dj.map(jobCard).join('')}</div>`:`<div class="dp-empty">Nenhum trabalho. <a style="color:#2176C7;cursor:pointer" onclick="openFormForDate('${ds}')">Adicionar</a></div>`}
+    <div class="dp-hd"><span class="dp-title">${dl.charAt(0).toUpperCase()+dl.slice(1)}</span>
+    <div class="dp-acts"><button class="dp-add" onclick="openFormForDate('${dstr}')">+ Novo</button>
+    <button class="dp-close" onclick="selectDay('${dstr}')">×</button></div></div>
+    ${dj.length?`<div class="dp-list">${dj.map(jobCard).join('')}</div>`:`<div class="dp-empty">Nenhum trabalho. <a style="color:#2176C7;cursor:pointer" onclick="openFormForDate('${dstr}')">Adicionar</a></div>`}
   </div>`;
   panel.style.display='block';
 }
 
 // ── PWA ──
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/sw.js').catch(()=>{});
-}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
 
 // ── INIT ──
 document.getElementById('sidebar-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
-document.getElementById('dash-greeting').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
 
-loadAll().then(()=>{
-  // Mostra popup semanal uma vez por dia
+loadAll().then(async()=>{
+  await loadChecklists();
+  renderAll();
   const lastPopup=localStorage.getItem('lastPopup');
-  const today=todayStr();
-  if(lastPopup!==today){
-    setTimeout(()=>{showWeeklyPopup();localStorage.setItem('lastPopup',today);},800);
+  if(lastPopup!==todayStr()){
+    setTimeout(()=>{showWeeklyPopup();localStorage.setItem('lastPopup',todayStr());},800);
   }
 });
 </script>
